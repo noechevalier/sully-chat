@@ -66,7 +66,7 @@ const Chat = ({
 }: ChatProps) => {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<MessageType[]>([
-    { role: "assistant", text: "Hello! How can I assist you with your medical inquiries today?" },
+    { role: "assistant", text: "Hi! I'm Sully, your medical assistant, how can I help you ?" },
   ]);
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
