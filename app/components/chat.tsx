@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
@@ -61,11 +59,11 @@ const Chat = ({
   functionCallHandler = () => Promise.resolve(""), // default to return empty string
 }: ChatProps) => {
   const [userInput, setUserInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([{ role: "assistant", text: "Hello! How can I assist you with your medical inquiries today ?" }]);
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
 
-  // automatically scroll to bottom of chat
+  // Automatically scroll to bottom of chat
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,7 +72,7 @@ const Chat = ({
     scrollToBottom();
   }, [messages]);
 
-  // create a new threadID when chat component created
+  // Create a new threadID when chat component created
   useEffect(() => {
     const createThread = async () => {
       const res = await fetch(`/api/assistants/threads`, {
@@ -142,7 +140,7 @@ const Chat = ({
   const handleTextDelta = (delta) => {
     if (delta.value != null) {
       appendToLastMessage(delta.value);
-    };
+    }
     if (delta.annotations != null) {
       annotateLastMessage(delta.annotations);
     }
@@ -151,17 +149,17 @@ const Chat = ({
   // imageFileDone - show image in chat
   const handleImageFileDone = (image) => {
     appendToLastMessage(`\n![${image.file_id}](/api/files/${image.file_id})\n`);
-  }
+  };
 
   // toolCallCreated - log new tool call
   const toolCallCreated = (toolCall) => {
-    if (toolCall.type != "code_interpreter") return;
+    if (toolCall.type !== "code_interpreter") return;
     appendMessage("code", "");
   };
 
   // toolCallDelta - log delta and snapshot for the tool call
   const toolCallDelta = (delta, snapshot) => {
-    if (delta.type != "code_interpreter") return;
+    if (delta.type !== "code_interpreter") return;
     if (!delta.code_interpreter.input) return;
     appendToLastMessage(delta.code_interpreter.input);
   };
@@ -208,7 +206,7 @@ const Chat = ({
     });
   };
 
-  /*
+ /*
     =======================
     === Utility Helpers ===
     =======================
