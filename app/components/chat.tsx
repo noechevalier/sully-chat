@@ -1,3 +1,5 @@
+"use client";			 
+
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
@@ -140,7 +142,7 @@ const Chat = ({
   const handleTextDelta = (delta) => {
     if (delta.value != null) {
       appendToLastMessage(delta.value);
-    }
+    };
     if (delta.annotations != null) {
       annotateLastMessage(delta.annotations);
     }
@@ -149,17 +151,17 @@ const Chat = ({
   // imageFileDone - show image in chat
   const handleImageFileDone = (image) => {
     appendToLastMessage(`\n![${image.file_id}](/api/files/${image.file_id})\n`);
-  };
+  }
 
   // toolCallCreated - log new tool call
   const toolCallCreated = (toolCall) => {
-    if (toolCall.type !== "code_interpreter") return;
+    if (toolCall.type != "code_interpreter") return;
     appendMessage("code", "");
   };
 
   // toolCallDelta - log delta and snapshot for the tool call
   const toolCallDelta = (delta, snapshot) => {
-    if (delta.type !== "code_interpreter") return;
+    if (delta.type != "code_interpreter") return;
     if (!delta.code_interpreter.input) return;
     appendToLastMessage(delta.code_interpreter.input);
   };
